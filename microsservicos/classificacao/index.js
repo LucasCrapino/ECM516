@@ -1,43 +1,37 @@
-const axios = require('axios')
-const express = require('express')
-const app = express()
-app.use(express.json())
+const axios = require('axios');
+const express = require('express');
+const app = express();
+const PORT = 7000;
+app.use(express.json()); // Middleware para converter o body em JSON
 
-// definir um mapa de funções, tal qual feito no consulta
-// trate o evento do tipo ObservacaoCriada
-// caso seu texto tenha a palavra importante, troque seu status
-// para importante, caso contrário, troque para comum
-// emita um evento do tipo ObservacaoClassificada
-// o evento precisa ter os campos tipo e dados
-
-const palavraChave = 'importante'
 const funcoes = {
     ObservacaoCriada: async (observacao) => {
-        observacao.status = 
-        observacao.texto.includes(palavraChave)
-        ? 'importante' 
-        : 'comum'
+        observacao.status = observacao.texto.includes(palavraChave) ? 'importante' : 'comum';
         await axios.post('http://localhost:10000/eventos', {
             tipo: 'ObservacaoClassificada',
             dados: observacao
-        })
+        });
     }
+
+    
 }
 
-app.post('/eventos', async function(req,res){
-    try {
-      const evento = req.body
-      console.log(evento)
-      await funcoes[evento.tipo](evento.dados)  
-    } catch (e) { //descarte de evento que não é de interesse
-        console.log(e)
+app.post('/eventos', async (req, res) => {
+    try{
+        const evento = req.body;
+        console.log(evento);
+        await funcoes[evento.tipo](evento.dados);
+    }
+    catch (error) {
+        console.error(`Erro ao processar o evento: ${error}`);
+        res.status(500).send('Erro ao processar o evento');
+        return;
     }
     finally{
-        res.end()
+        res.end();
     }
 })
 
-const port = 7000
-app.listen(port, 
-    () => console.log(`Classificação. Porta ${port}`)
-)
+app.listen(PORT, () => {
+    console.log(`\x1b[36mClassificação: Servidor rodando na porta ${PORT}\x1b[0m`);
+});
