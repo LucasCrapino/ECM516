@@ -3,6 +3,7 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 
+const eventos = []
 app.post('/eventos', async (req,res) => {
     //1. pegar o evento
 
@@ -34,6 +35,10 @@ app.post('/eventos', async (req,res) => {
         console.log(e)
     }
     res.end()
+})
+
+app.get('/eventos', (req, res) => {
+    res.json(eventos)
 })
 
 const port = 10000

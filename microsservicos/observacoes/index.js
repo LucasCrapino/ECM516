@@ -1,4 +1,5 @@
 const express = require('express')
+const axios = require('axios')
 const {v4: uuidv4} = require('uuid')
 const app = express()
 app.use(express.json())
@@ -58,8 +59,12 @@ app.post('/eventos', async (req,res) => {
     try{
         const evento = req.body
         console.log(evento)
-        funcoes[evento.tipo](evento.dados)  
-    } finally{
+        await funcoes[evento.tipo](evento.dados)  
+    } 
+    catch(e){
+        console.log(e)
+    } 
+    finally{
         res.end()
     }
 })
