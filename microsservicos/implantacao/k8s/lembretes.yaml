@@ -5,11 +5,11 @@ metadata:
 spec:
   containers:
     - name: ecm516-lembretes
-      image: LucasCrapino/ecm516-lembretes:0.0.1
+      image: rodbossini/ecm516-lembretes:0.0.1
       resources:
         limits:
           memory: 256Mi
-          cpu: 2
+          cpu:  2
         requests:
           memory: 128Mi
           cpu: 1

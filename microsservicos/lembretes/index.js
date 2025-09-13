@@ -114,5 +114,7 @@ app.post('/eventos', (req, res) => {
 })
 
 app.listen(PORT, () => {
+    console.log('Nova versão')
+    console.log('Agora usando o Docker Hub')
     console.log(`\x1b[36mLembretes: Servidor rodando na porta ${PORT}\x1b[0m`);
 });
